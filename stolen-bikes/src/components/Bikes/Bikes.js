@@ -1,6 +1,6 @@
 import { CircularProgress, Grid, Typography } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -29,8 +29,28 @@ const Bikes = ({ handleDetails, handleBikeId, handlePage, page }) => {
   const classes = useStyles();
   const bikes = useSelector((state) => state.bikes.bikes);
   const error = useSelector((state) => state.bikes.error);
+  const empty = useSelector((state) => state.bikes.empty);
   const total = useSelector((state) => state.bikes.total);
+
   const renderBikes = () => {
+    if (error) {
+      return (
+        <Grid item>
+          <Typography variant="h5" color="secondary">
+            {error.message}
+          </Typography>
+        </Grid>
+      );
+    }
+    if (empty) {
+      return (
+        <Grid item>
+          <Typography variant="h5" color="inherit">
+            No results found...
+          </Typography>
+        </Grid>
+      );
+    }
     if (bikes.length > 0) {
       return bikes.map(
         (bike) =>
@@ -51,30 +71,17 @@ const Bikes = ({ handleDetails, handleBikeId, handlePage, page }) => {
           ),
       );
     }
-    if (error) {
-      return (
-        <Grid item>
-          <Typography variant="h5" color="secondary">
-            {error.message}
-          </Typography>
-        </Grid>
-      );
-    }
-    // if (bikes.length === 0) {
-    //   return (
-    //     <Grid item>
-    //       <Typography variant="h5" color="inherit">
-    //         No results found...
-    //       </Typography>
-    //     </Grid>
-    //   );
-    // }
     return (
       <Grid item>
         <CircularProgress size={50} thickness={30} />
       </Grid>
     );
   };
+
+  useEffect(() => {
+    renderBikes();
+  }, [empty]);
+
   return (
     <Grid
       container
