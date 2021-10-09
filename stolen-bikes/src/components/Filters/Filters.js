@@ -21,13 +21,7 @@ const Filters = ({
   from,
   to,
 }) => (
-  <Grid
-    container
-    direction="row"
-    justifyContent="flex-start"
-    alignItems="center"
-    style={{ margin: 50, gap: 15 }}
-  >
+  <Grid container direction="row" justifyContent="center" alignItems="center">
     <Grid item>
       <FormControl>
         <InputLabel>Search</InputLabel>
