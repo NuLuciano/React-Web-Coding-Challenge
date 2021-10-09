@@ -57,10 +57,12 @@ const Bike = ({
   stolenLocation,
 }) => {
   const classes = useStyles();
+
   const handleOnClick = () => {
     handleDetails();
     handleBikeId(bikeId);
   };
+
   return (
     <Card className={classes.root} onClick={handleOnClick}>
       <CardActionArea>
